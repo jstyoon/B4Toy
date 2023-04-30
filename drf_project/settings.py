@@ -42,7 +42,7 @@ INSTALLED_APPS = [
     "corsheaders",
     'rest_framework_simplejwt',
     'rest_framework',
-    'users',
+    'accounts',
     'articles',
 ]
 
@@ -135,7 +135,7 @@ STATIC_URL = 'static/'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'users.User' # app.table 형태
+AUTH_USER_MODEL = 'accounts.User' # app.table 형태
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": timedelta(minutes=720),

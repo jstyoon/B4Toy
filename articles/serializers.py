@@ -1,23 +1,29 @@
 from rest_framework import serializers
 
-from articles.models import Article
+from .models import ArticleTodolist
 
 class ArticleSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Article
-        fields = '__all__'
-
-class ArticleCreateSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Article
-        fields = ("title", "image", "content")
-
-class ArticleListSerializer(serializers.ModelSerializer):
-    user = serializers.SerializerMethodField()
-    
-    def get_user(self, obj):
-        return obj.user.email
+    verified_user = serializers.SerializerMethodField()
+    def get_verified_user(self,obj):
+        return obj.verified_user.name
     
     class Meta:
-        model = Article
-        fields = ("pk", "title", "image", "updated_at", "user")
+        model = ArticleTodolist
+        fields = ('title', 'verified_user')
+
+
+class ArticleTodolistCreateSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = ArticleTodolist
+        fields = ("title", "is_complete", "content")
+
+
+class ArticleTodolistSerializer(serializers.ModelSerializer):
+    verified_user = serializers.SerializerMethodField()
+    
+    def get_verified_user(self, obj):
+        return obj.verified_user.email
+    
+    class Meta:
+        model = ArticleTodolist
+        fields = "__all__"

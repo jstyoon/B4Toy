@@ -5,7 +5,7 @@ from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django.core.exceptions import ValidationError
 
-from users.models import User
+from accounts.models import User
 
 
 class UserCreationForm(forms.ModelForm):
@@ -14,7 +14,7 @@ class UserCreationForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ["email"]
+        fields = ["email", "name", "gender", "age", "introduction"]
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -38,17 +38,19 @@ class UserChangeForm(forms.ModelForm):
 
     class Meta:
         model = User
-        fields = ["email", "password", "is_active", "is_admin"]
+        fields = ["email", "password", "is_active", "is_admin",
+                  "name", "gender", "age", "introduction"]
 
 
 class UserAdmin(BaseUserAdmin):
     form = UserChangeForm
     add_form = UserCreationForm
 
-    list_display = ["email", "is_admin"]
+    list_display = ["email", "is_admin",
+                    "name", "gender", "age", "introduction"]
     list_filter = ["is_admin"]
     fieldsets = [
-        (None, {"fields": ["email", "password"]}),
+        (None, {"fields": ["email", "password", "name", "gender", "age", "introduction"]}),
         ("Permissions", {"fields": ["is_admin"]}),
     ]
     # add_fieldsets is not a standard ModelAdmin attribute. UserAdmin
@@ -58,9 +60,9 @@ class UserAdmin(BaseUserAdmin):
             None,
             {
                 "classes": ["wide"],
-                "fields": ["email", "password1", "password2"],
-            },
-        ),
+                "fields": ["email", "password1", "password2", "name", "gender", "age", "introduction"],
+            }
+        )
     ]
     search_fields = ["email"]
     ordering = ["email"]
