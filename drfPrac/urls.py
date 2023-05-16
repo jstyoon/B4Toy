@@ -23,6 +23,7 @@ admin을 제외한 다른 경로를 아래와 같이 작성하면 해당 기능�
 세부 경로를 불러오게 된다 이때 include를 사용해준다.  
 """
 urlpatterns = [
-    path('admin/', admin.site.urls),
-    path('api/user/', include("user.urls")),
+    path("admin/", admin.site.urls),
+    path("api/user/", include("user.urls")),
+    path("api/product/", include("product.urls")),
 ]

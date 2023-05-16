@@ -17,10 +17,13 @@ class Product(models.Model):
         ('F', 'Free'),
     )
     code = models.CharField(verbose_name="코드", max_length=20)
-    # 필수는 아니지만 "필드이름"을 기입하면 테스트할 때 한글로 한눈에 확인할 수 있어서 가독성 좋음
-    # 이를 verbose_name 이라고 한다. 없어도 장고의 강력한 유저db 생성 기능으로 자동생성 되지만
-    # verbose_name을 명시하면 나중에 코드를 관리하기가 편하다?
-    # 참고 https://djangojeng-e.github.io/2020/08/02/Django-Models-6%ED%8E%B8-Fields-verbose-field-names/
+    """
+    필수는 아니지만 "필드이름"을 기입하면 테스트할 때 한글로 한눈에 확인할 수 있어서 가독성 좋음
+    이를 verbose_name 이라고 한다. 없어도 장고의 강력한 유저db 생성 기능으로 자동생성 되지만
+    verbose_name을 명시하면 나중에 코드를 관리하기가 편하다?
+    참고 https://djangojeng-e.github.io/2020/08/02/Django-Models-6%ED%8E%B8-Fields-verbose-field-names/
+    """
+    
     name = models.CharField(verbose_name="코드", max_length=20)
     description = models.TextField(verbose_name="상품설명")
     # TextField는 max_length가 필요 없죠?
@@ -39,13 +42,6 @@ class Product(models.Model):
     두번째 요소는 사용자가 볼 수 있는 레이블(옵션의 이름)이 됩니다.
     """
 
-#     이건 필요 없는 코드인가?
-#     def __str__(self):
-#         return self.code
-
-#     def save(self, *args, **kwargs):
-#         # 생성될 때 stock quantity를 0으로 초기화 로직 이건 왜 삭제되는 지 모르겠다
-
 
 class Invetory(models.Model):
     """
@@ -62,10 +58,8 @@ class Invetory(models.Model):
     related_name은 지정해주면 역참조할 때 좋다고 한다?
     인벤토리는 product라는 테이블을 참조하고 있기 때문에 관계가 형성이 되는데
     만약 참조하고 있는 프로덕트 데이터가 삭제되면 어떤 이벤트를 할거냐는 의미이다
-    여기선 on_delete는 프로덕트가 사라지면 인벤토리에서도 삭제한다는 의미?
+    on_delete는 프로덕트가 사라지면 인벤토리에서도 삭제한다는 의미
     """
-
-
 
 class Inbound(models.Model):
     """
@@ -75,8 +69,6 @@ class Inbound(models.Model):
     product = models.OneToOneField(Product, on_delete=models.CASCADE)
     amount = models.PositiveIntegerField(verbose_name="입고상품수량")
     created_at = models.DateTimeField(verbose_name="입고일자", auto_now_add=True) 
-    # auto_now_add=True : 생성되는 순간 이후로 변경되지 않는다
-    # auto_now=True : 생성될 때 뿐만 아니라 수정할 때에도 시간 변동
     price = models.PositiveIntegerField(verbose_name="입고가격")
     
 class Outbound(models.Model):
